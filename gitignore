@@ -1,3 +1,28 @@
-.idea
-.code
-.vscode
+# IntelliJ IDEA
+.idea/
+*.iml
+/out/
+
+# Maven
+/target/
+
+# Gradle
+/build/
+/.gradle/
+/classes/
+
+# Arquivos de ambiente (segurança)
+.env
+.env.*
+
+# Logs
+*.log
+
+# Arquivos temporários do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de backup
+*.swp
+*.bak
+*.tmp
