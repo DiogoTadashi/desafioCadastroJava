@@ -2,7 +2,7 @@ package enums;
 
 public enum TypePet {
     CACHORRO,
-    Gato,
+    GATO,
     PASSARO,
     ROEDOR,
     OUTRO;

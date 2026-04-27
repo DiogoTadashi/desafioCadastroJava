@@ -4,10 +4,12 @@ import java.util.Scanner;
 public class Menu {
     private final FormReader reader;
     private final Scanner sc;
+    private PetService petService;
 
     public Menu(FormReader reader, Scanner sc) {
         this.reader = reader;
         this.sc = sc;
+        this.petService = new PetService(sc);
     }
 
     public void run() {
@@ -24,13 +26,14 @@ public class Menu {
 
             try {
                 opcao = sc.nextInt();
+                sc.nextLine();
 
                 switch (opcao) {
-                    case 1 -> reader.showForm();
-                    case 2 -> reader.showForm();
-                    case 3 -> reader.showForm();
-                    case 4 -> reader.showForm();
-                    case 5 -> reader.showForm();
+                    case 1 -> petService.cadastrarPet(reader.lerFormulario());
+                    case 2 -> petService.cadastrarPet(reader.lerFormulario());
+                    case 3 -> petService.cadastrarPet(reader.lerFormulario());
+                    case 4 -> petService.cadastrarPet(reader.lerFormulario());
+                    case 5 -> petService.cadastrarPet(reader.lerFormulario());
 
                     case 6 -> System.out.println("Saindo...");
                     default -> System.out.println("Opção inválida!");
