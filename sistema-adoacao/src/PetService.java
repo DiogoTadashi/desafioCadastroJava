@@ -1,12 +1,18 @@
 import enums.SexPet;
 import enums.TypePet;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 public class PetService {
     private final Scanner sc;
+    private String nomeCompleto;
 
     public PetService(Scanner sc) {
         this.sc = sc;
@@ -23,6 +29,7 @@ public class PetService {
                 throw new CampoExceptions("Nome e sobrenome são obrigatórios!");
             }
             PetValidator.validarNome(nomeCompleto);
+            this.nomeCompleto = nomeCompleto;
 
             String[] partes = nomeCompleto.trim().split("\\s+");
             if (partes.length < 2) {
@@ -71,6 +78,7 @@ public class PetService {
 
             System.out.println("\nPet cadastrado com sucesso!");
             System.out.println(pet);
+            criarObjetoPet(pet);
 
         } catch (CampoExceptions e) {
             System.out.println("Erro: " + e.getMessage());
@@ -115,5 +123,30 @@ public class PetService {
         }
 
         return sexo;
+    }
+
+    private void criarObjetoPet(Pet pet) {
+        String pattern = "yyyyMMdd'T'HHmm";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        String data = sdf.format(new Date());
+
+        String nomeCompletoParaData = nomeCompleto.trim().toUpperCase().replaceAll("\\s+", "");
+
+        String nameFile = data+"-"+nomeCompletoParaData;
+// CORRIGIR AQUI
+        File file = new File("src\\petsCadastrados"+ nameFile +".txt");
+
+        try (FileWriter fw = new FileWriter(file, true)) {
+            fw.write(nomeCompleto);
+            fw.write(pet.getTipo().toString());
+            fw.write(pet.getSexo().toString());
+            fw.write(pet.getEndereco().toString());
+            fw.write(String.valueOf(pet.getIdade()));
+            fw.write(String.valueOf(pet.getPeso()));
+            fw.write(pet.getRaca().toString());
+            fw.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

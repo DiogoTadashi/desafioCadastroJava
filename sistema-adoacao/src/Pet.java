@@ -13,6 +13,21 @@ public class Pet {
     private Double peso;
     private String raca;
 
+    @Override
+    public String toString() {
+        return "Pet {" +
+                "nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", tipo=" + tipo +
+                ", sexo=" + sexo +
+                ", endereco=" + endereco +
+                ", idade=" + idade +
+                ", peso=" + peso +
+                ", raca='" + raca + '\'' +
+                '}';
+    }
+
+
     public String getNome() {
         return nome;
     }
