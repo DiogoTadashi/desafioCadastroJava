@@ -159,7 +159,7 @@ Após o usuário selecionar os critérios, você deverá printar no terminal os 
 ```
 
 3. Caso o usuário escolha por exemplo, NOME, os resultados da busca devem trazer PARTES do nome, por exemplo, caso ele pesquise por FLOR, deverá trazer o caso 2 citado anteriormente.
-4. Toda busca deverá ser case-sensitive, ou seja, ignorar maiuscula e minuscula (tratando como iguais) e acentos.
+4. Toda busca deverá ser case-insensitive, ou seja, ignorar maiuscula e minuscula (tratando como iguais) e acentos.
 
 ### _Regra nível 2 (não obrigatória) ⚠️_
 
