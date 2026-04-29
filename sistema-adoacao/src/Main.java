@@ -6,7 +6,14 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         FormReader reader = new FormReader();
-        Menu menu = new Menu(reader, sc);
+        PetRepository petRepository = new PetRepository();
+
+        petRepository.carregar();
+
+        PetService petService = new PetService(sc, petRepository);
+        PetSearchService searchService = new PetSearchService(petRepository.getPets(), sc);
+
+        Menu menu = new Menu(sc, reader, petService, searchService);
 
         menu.run();
 

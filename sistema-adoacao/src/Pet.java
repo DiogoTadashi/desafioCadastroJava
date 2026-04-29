@@ -27,6 +27,9 @@ public class Pet {
                 '}';
     }
 
+    public String getNomeCompleto() {
+        return nome + " " + sobrenome;
+    }
 
     public String getNome() {
         return nome;

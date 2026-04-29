@@ -4,12 +4,14 @@ import java.util.Scanner;
 public class Menu {
     private final FormReader reader;
     private final Scanner sc;
-    private PetService petService;
+    private final PetService petService;
+    private final PetSearchService petSearchService;
 
-    public Menu(FormReader reader, Scanner sc) {
-        this.reader = reader;
+    public Menu(Scanner sc, FormReader reader, PetService petService, PetSearchService searchService) {
         this.sc = sc;
-        this.petService = new PetService(sc);
+        this.reader = reader;
+        this.petService = petService;
+        this.petSearchService = searchService;
     }
 
     public void run() {
@@ -30,7 +32,7 @@ public class Menu {
 
                 switch (opcao) {
                     case 1 -> petService.cadastrarPet(reader.lerFormulario());
-                    case 2 -> petService.cadastrarPet(reader.lerFormulario());
+                    case 2 -> petSearchService.buscarPets();
                     case 3 -> petService.cadastrarPet(reader.lerFormulario());
                     case 4 -> petService.cadastrarPet(reader.lerFormulario());
                     case 5 -> petService.cadastrarPet(reader.lerFormulario());
@@ -43,5 +45,20 @@ public class Menu {
                 sc.nextLine();
             }
         } while (opcao != 6);
+    }
+
+    public static void menuBuscaPets() {
+        System.out.println("\nBuscar por:");
+        System.out.println("[1] Nome");
+        System.out.println("[2] Sexo");
+        System.out.println("[3] Idade");
+        System.out.println("[4] Peso");
+        System.out.println("[5] Raca");
+        System.out.println("[6] Endereco");
+        System.out.println("[7] Nome e Idade");
+        System.out.println("[8] Idade e Peso");
+        System.out.println("[9] Nome e Peso");
+        System.out.println("[10] Raca e Peso");
+        System.out.println("[11] Sexo e Raca");
     }
 }

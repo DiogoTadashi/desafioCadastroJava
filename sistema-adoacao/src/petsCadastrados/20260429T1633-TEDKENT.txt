@@ -1,0 +1,7 @@
+1 - Ted Kent
+2 - CACHORRO
+3 - MALE
+4 - 1, 6070, Rio Preto
+5 - 16.0 anos
+6 - 15.0 kg
+7 - Dobberman

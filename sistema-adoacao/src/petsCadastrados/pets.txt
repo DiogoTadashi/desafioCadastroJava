@@ -1,0 +1,2 @@
+Nina Amorim;CACHORRO;FEMALE;14;3054;Jales;10.0;5.6;Shitzu
+Ted Kent;CACHORRO;MALE;1;6070;Rio Preto;16.0;15.0;Dobberman
