@@ -32,10 +32,10 @@ public class Menu {
 
                 switch (opcao) {
                     case 1 -> petService.cadastrarPet(reader.lerFormulario());
-                    case 2 -> petSearchService.buscarPets();
+                    case 2 -> petService.cadastrarPet(reader.lerFormulario());
                     case 3 -> petService.cadastrarPet(reader.lerFormulario());
                     case 4 -> petService.cadastrarPet(reader.lerFormulario());
-                    case 5 -> petService.cadastrarPet(reader.lerFormulario());
+                    case 5 -> petSearchService.buscarPets();
 
                     case 6 -> System.out.println("Saindo...");
                     default -> System.out.println("Opção inválida!");
