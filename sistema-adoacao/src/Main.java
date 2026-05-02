@@ -10,8 +10,8 @@ public class Main {
 
         petRepository.carregar();
 
-        PetService petService = new PetService(sc, petRepository);
         PetSearchService searchService = new PetSearchService(petRepository.getPets(), sc);
+        PetService petService = new PetService(sc, petRepository, searchService);
 
         Menu menu = new Menu(sc, reader, petService, searchService);
 

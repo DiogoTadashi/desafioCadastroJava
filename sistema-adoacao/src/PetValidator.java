@@ -19,12 +19,13 @@ public class PetValidator {
         return nome;
     }
 
-    public static void validarRaca(String raca) {
-        if (raca.equals(Pet.NAO_INFORMADO)) return;
+    public static String validarRaca(String raca) {
+        if (raca.equals(Pet.NAO_INFORMADO)) return raca;
 
         if (!raca.matches("[a-zA-ZÀ-ÿ ]+")) {
             throw new IllegalArgumentException("Raça inválida!");
         }
+        return raca;
     }
 
     public static Double validarPeso(String input) {

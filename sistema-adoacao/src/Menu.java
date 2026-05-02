@@ -32,7 +32,7 @@ public class Menu {
 
                 switch (opcao) {
                     case 1 -> petService.cadastrarPet(reader.lerFormulario());
-                    case 2 -> petService.cadastrarPet(reader.lerFormulario());
+                    case 2 -> petService.alterarPet();
                     case 3 -> petService.cadastrarPet(reader.lerFormulario());
                     case 4 -> petService.cadastrarPet(reader.lerFormulario());
                     case 5 -> petSearchService.buscarPets();

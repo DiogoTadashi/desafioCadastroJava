@@ -1,25 +1,25 @@
 import enums.TypePet;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class PetSearchService {
     private final Scanner sc;
-    private Menu menu;
-    private static final String PASTA = "petsCadastrados";
-    private List<Pet> pets;
+    private final List<Pet> pets;
 
     public PetSearchService(List<Pet> pets, Scanner sc) {
         this.pets = pets;
         this.sc = sc;
     }
 
-    public void buscarPets() {
+    public List<Pet> buscarPets() {
+        List<Pet> encontrados = new ArrayList<>();
 
         if (pets.isEmpty()) {
-            System.out.println("Nenhum pet encontrado");
-            return;
+            System.out.println("Nenhum pet cadastrado");
+            return new ArrayList<>();
         }
 
         TypePet tipo = null;
@@ -64,7 +64,7 @@ public class PetSearchService {
 
             if(op2 == op1){
                 System.out.println("Não pode repetir o mesmo critério!");
-                return;
+                return new ArrayList<>();
             }
 
             System.out.print("Digite o valor: ");
@@ -85,6 +85,7 @@ public class PetSearchService {
             }
 
             if (match1 && match2) {
+                encontrados.add(p);
                 System.out.println(i++ + ". " + formatarPet(p));
             }
         }
@@ -92,6 +93,8 @@ public class PetSearchService {
         if (i == 1) {
             System.out.println("Nenhum pet foi encontrado!");
         }
+
+        return encontrados;
     }
 
     private boolean verificar(Pet p, int opcao, String valor) {
