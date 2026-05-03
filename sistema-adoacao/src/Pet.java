@@ -12,6 +12,8 @@ public class Pet {
     private Double idade;
     private Double peso;
     private String raca;
+    private String id;
+    private String nomeArquivo;
 
     @Override
     public String toString() {
@@ -93,5 +95,21 @@ public class Pet {
 
     public void setRaca(String raca) {
         this.raca = raca;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNomeArquivo() {
+        return nomeArquivo;
+    }
+
+    public void setNomeArquivo(String nomeArquivo) {
+        this.nomeArquivo = nomeArquivo;
     }
 }

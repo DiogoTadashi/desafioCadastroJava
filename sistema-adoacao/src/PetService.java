@@ -4,11 +4,12 @@ import enums.TypePet;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class PetService {
     private final Scanner sc;
-    private PetRepository petRepository;
-    private PetSearchService petSearchService;
+    private final PetRepository petRepository;
+    private final PetSearchService petSearchService;
 
     public PetService(Scanner sc, PetRepository petRepository, PetSearchService petSearchService) {
         this.sc = sc;
@@ -73,6 +74,8 @@ public class PetService {
             PetValidator.validarRaca(raca);
             pet.setRaca(raca);
 
+            pet.setId(UUID.randomUUID().toString());
+
             System.out.println("\nPet cadastrado com sucesso!");
             petRepository.getPets().add(pet);
             petRepository.criarObjetoPet(pet);
@@ -136,6 +139,51 @@ public class PetService {
             }
 
         } while (opcao != 0);
+    }
+
+    public void deletarPet() {
+        List<Pet> resultados = petSearchService.buscarPets();
+
+        if (resultados.isEmpty()) return;
+
+        int escolha;
+
+        while (true) {
+            System.out.print("Escolha o número do pet para deletar (0 cancelar): ");
+            try {
+                escolha = Integer.parseInt(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Digite apenas números.");
+                continue;
+            }
+
+            if (escolha == 0) {
+                System.out.println("Operação cancelada.");
+                return;
+            }
+
+            if (escolha < 1 || escolha > resultados.size()) {
+                System.out.println("Número inválido! Tente novamente.");
+                continue; // volta para pedir o número de novo
+            }
+
+            break;
+        }
+
+        Pet pet = resultados.get(escolha - 1);
+
+        System.out.println("Deletando: " + pet.getNomeCompleto());
+
+        System.out.print("Confirmar exclusão (SIM/NÃO): ");
+        String confirmacao = sc.nextLine().trim().toUpperCase();
+
+        if (!confirmacao.equals("SIM")) {
+            System.out.println("Exclusão cancelada.");
+            return;
+        }
+        //remove da memória e do arquivo e arquivo individual
+        petRepository.remover(pet);
+        System.out.println("Pet deletado com sucesso!");
     }
 
     private void alterarNome(Pet pet) {

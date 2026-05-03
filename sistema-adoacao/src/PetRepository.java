@@ -14,33 +14,34 @@ public class PetRepository {
 
     public void carregar() {
         try (BufferedReader br = new BufferedReader(new FileReader(CAMINHO))) {
-
             String linha;
 
             while ((linha = br.readLine()) != null) {
                 String[] d = linha.split(";");
+                if (d.length < 11) continue;
 
-                Pet p = new Pet();
+                pet.setId(d[0]);
+                pet.setNomeArquivo(d[1]);
 
-                String[] nome = d[0].split(" ");
-                p.setNome(nome[0]);
-                p.setSobrenome(nome.length > 1 ? nome[1] : "");
+                String[] nome = d[2].split(" ");
+                pet.setNome(nome[0]);
+                pet.setSobrenome(nome.length > 1 ? nome[1] : "");
 
-                p.setTipo(TypePet.valueOf(d[1]));
-                p.setSexo(SexPet.valueOf(d[2]));
+                pet.setTipo(TypePet.valueOf(d[3]));
+                pet.setSexo(SexPet.valueOf(d[4]));
 
                 Address end = new Address();
-                end.setStreet(d[3]);
-                end.setNum(d[4]);
-                end.setCity(d[5]);
-                p.setEndereco(end);
+                end.setStreet(d[5]);
+                end.setNum(d[6]);
+                end.setCity(d[7]);
+                pet.setEndereco(end);
 
-                p.setIdade(d[6].equals("null") ? null : Double.parseDouble(d[6]));
-                p.setPeso(d[7].equals("null") ? null : Double.parseDouble(d[7]));
+                pet.setIdade(d[8].equals("null") ? null : Double.parseDouble(d[8]));
+                pet.setPeso(d[9].equals("null") ? null : Double.parseDouble(d[9]));
 
-                p.setRaca(d[8]);
+                pet.setRaca(d[10]);
 
-                pets.add(p);
+                pets.add(pet);
             }
 
         } catch (IOException e) {
@@ -49,20 +50,21 @@ public class PetRepository {
     }
 
     public void criarObjetoPet(Pet pet) {
-        String nomeCompleto = pet.getNomeCompleto();
         String pattern = "yyyyMMdd'T'HHmm";
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         String data = sdf.format(new Date());
 
-        String nomeCompletoParaData = nomeCompleto.trim().toUpperCase().replaceAll("\\s+", "");
+        String nomeCompletoParaData = pet.getNomeCompleto().trim().toUpperCase().replaceAll("\\s+", "");
 
-        String nameFile = data + "-" + nomeCompletoParaData;
+        String nameFile = data + "-" + nomeCompletoParaData + ".txt";
 
-        File file = new File("sistema-adoacao\\src\\petsCadastrados\\" + nameFile + ".txt");
+        pet.setNomeArquivo(nameFile);
+
+        File file = new File("sistema-adoacao\\src\\petsCadastrados\\" + nameFile);
 
         try (FileWriter fw = new FileWriter(file, true);
              BufferedWriter bw = new BufferedWriter(fw)) {
-            bw.write("1 - " + nomeCompleto);
+            bw.write("1 - " + pet.getNomeCompleto());
             bw.newLine();
             bw.write("2 - " + pet.getTipo().toString());
             bw.newLine();
@@ -84,7 +86,9 @@ public class PetRepository {
     public void salvarPetArquivo(Pet pet) {
         try (FileWriter fw = new FileWriter(CAMINHO, true)) {
 
-            String linha = pet.getNome() + " " + pet.getSobrenome() + ";" +
+            String linha = pet.getId() + ";" +
+                    pet.getNomeArquivo() + ";" +
+                    pet.getNome() + " " + pet.getSobrenome() + ";" +
                     pet.getTipo() + ";" +
                     pet.getSexo() + ";" +
                     pet.getEndereco().getStreet() + ";" +
@@ -98,6 +102,57 @@ public class PetRepository {
 
         } catch (IOException e) {
             System.out.println("Erro ao salvar pet.");
+        }
+    }
+
+    public void remover(Pet pet) {
+        // 1. remove da lista em memória
+        pets.remove(pet);
+        // 2. remove do arquivo principal
+        removerDoArquivo(pet);
+        // 3. remove arquivo individual
+        removerArquivoIndividual(pet);
+    }
+
+    private void removerDoArquivo(Pet petParaRemover) {
+        File arquivo = new File(CAMINHO);
+        List<String> linhasRestantes = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+
+            while ((linha = br.readLine()) != null) {
+                if (!linha.startsWith(petParaRemover.getId() + ";")) {
+                    linhasRestantes.add(linha);
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Erro ao ler arquivo.");
+            return;
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo))) {
+            for (String l : linhasRestantes) {
+                bw.write(l);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao atualizar arquivo.");
+        }
+    }
+
+    private void removerArquivoIndividual(Pet pet) {
+        if (pet.getNomeArquivo() == null) return;
+
+        File arquivo = new File("sistema-adoacao\\src\\petsCadastrados\\" + pet.getNomeArquivo());
+
+        if (arquivo.exists()) {
+            if (arquivo.delete()) {
+                System.out.println("Arquivo " + pet.getNomeArquivo() + " removido.");
+            } else {
+                System.out.println("Não foi possível remover o arquivo individual.");
+            }
         }
     }
 
